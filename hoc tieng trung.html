@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f0e7">
+<title>中文卡片 — Học tiếng Trung cùng nhau</title>
+<style>
+:root{--bg:#f4f0e7;--card:#fffdf7;--ink:#252525;--muted:#77746d;--red:#c94737;--line:#e3dccd;--blue:#427eae;--green:#38785d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:780px;margin:auto;min-height:100vh;padding:18px 16px 28px}.modebar{display:flex;gap:8px;margin:0 0 14px}.modebtn{flex:1;border:1px solid var(--line);background:#fffdf7;color:#645d52;border-radius:14px;padding:12px;font-weight:650}.modebtn.active{background:#c94737;color:white;border-color:#c94737;box-shadow:0 4px 12px #c9473725}.gamecard{background:#fffdf7;border:1px solid #e2dac8;border-radius:22px;padding:22px;box-shadow:0 5px 18px #55442b0c}.game-title{font-size:22px;font-weight:750;margin:0 0 5px}.game-sub{font-size:13px;color:var(--muted);margin-bottom:16px}.prompt{padding:14px;border-radius:14px;background:#f4f0e7;margin-bottom:14px}.prompt strong{display:block;margin-bottom:5px}.chips{display:flex;flex-wrap:wrap;gap:8px;min-height:50px;padding:10px;border:1px dashed #d9cdb8;border-radius:14px;margin:10px 0}.chip{border:1px solid #e0d5c3;background:#fff;border-radius:10px;padding:9px 12px;color:#292929}.chip.used{opacity:.3}.answerline{min-height:48px;padding:10px;border-radius:12px;background:#f6f2e9;border:1px solid var(--line);display:flex;flex-wrap:wrap;gap:7px}.feedback{font-weight:650;min-height:25px;margin-top:10px}.feedback.good{color:#28784e}.feedback.bad{color:#b94335}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:11px}.logo{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--red);color:white;font-size:23px;font-weight:800}
+h1{font-size:21px;margin:0} .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 13px;color:var(--ink)}
+.btn.primary{background:var(--red);border-color:var(--red);color:white}.btn.active{background:#e6efe8;border-color:#b9d2c0;color:#225b40}
+.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.toolbar label{font-size:12px;color:var(--muted);display:block;margin:0 0 5px 3px}
+select,input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);outline-color:var(--blue)}
+.toggles{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.toggle{padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:#fffdf7;color:#5f5a51;font-size:13px}
+.toggle.on{background:#e7eff5;border-color:#b5cede;color:#285a7d}
+.progress{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;margin:14px 3px 9px}
+.track{height:5px;background:#e3dccd;border-radius:10px;overflow:hidden;margin-bottom:15px}.fill{height:100%;width:0;background:var(--red);transition:width .2s}
+.flashcard{background:var(--card);border:1px solid #e2dac8;border-radius:22px;padding:26px 20px 20px;text-align:center;box-shadow:0 5px 18px #55442b0c;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:#f1ece1;padding:5px 9px;border-radius:20px;margin-bottom:16px}
+.hanzi{font-size:clamp(42px,9vw,66px);font-weight:650;line-height:1.18;letter-spacing:.03em;margin:0 0 13px}
+.pinyin{font-size:24px;color:var(--red);margin:0 0 8px}.meaning{font-size:20px;margin:0 0 22px}
+.example{border-top:1px solid var(--line);padding-top:17px;width:100%;max-width:520px}
+.example-cn{font-size:clamp(20px,4.5vw,27px);line-height:1.5;margin-bottom:5px}.example-py{color:var(--red);font-size:15px;margin-bottom:6px}.example-vi{font-size:15px;color:#5c5851}
+.actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:17px}
+.smallbtn{border:1px solid #d8e0e4;color:var(--blue);background:transparent;border-radius:24px;padding:9px 13px;font-size:14px}
+.smallbtn.unknown{color:#6c6559;border-color:var(--line)}.smallbtn.unknown.marked{background:#fff0d8;color:#8b5c10;border-color:#e9c98e}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.nav .btn{font-size:17px;padding:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}
+.stat{background:#eee8dc;border-radius:12px;padding:10px;text-align:center}.stat strong{display:block;font-size:19px}.stat span{font-size:11px;color:var(--muted)}
+.extra{margin-top:17px;border:1px solid var(--line);border-radius:16px;background:#faf7f0;padding:14px}
+.extra summary{cursor:pointer;font-weight:650}.extra p{font-size:13px;color:var(--muted);line-height:1.6}
+.addgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.addgrid .wide{grid-column:1/-1}
+footer{text-align:center;color:var(--muted);font-size:12px;margin:18px 0 0}
+.hidden{visibility:hidden}.off{display:none!important}
+@media(min-width:650px){.app{padding-top:26px}.toolbar{grid-template-columns:1fr 1fr 1fr}.flashcard{padding:34px 28px;min-height:370px}.app{max-width:820px}}
+@media(max-width:390px){.app{padding:12px 10px}.brand h1{font-size:18px}.btn{padding:9px 10px}.flashcard{padding:22px 14px}.toolbar{gap:7px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">中</div><div><h1>Học tiếng Trung nè ✨</h1><div class="sub">Từ vựng · Câu ví dụ · Xếp câu</div></div></div>
+  <button class="btn" id="resetBtn" title="Đặt lại bộ lọc">↻ Làm mới</button>
+</header>
+
+<div class="toolbar">
+  <div>
+    <label for="category">Bộ từ vựng</label>
+    <select id="category">
+      <option value="all">Tất cả từ</option>
+      <option value="HSK 1">HSK 1</option>
+      <option value="HSK 2">HSK 2</option>
+      <option value="HSK 3">HSK 3</option>
+      <option value="HSK 4">HSK 4</option>
+      <option value="HSK 5">HSK 5</option>
+      <option value="HSK 6">HSK 6</option>
+      <option value="Công việc">Công việc / logistics</option>
+      <option value="marked">Từ chưa thuộc ⭐</option>
+    </select>
+  </div>
+  <div><label for="search">Tìm từ / nghĩa</label><input id="search" placeholder="Ví dụ: 放行, thông quan..."></div>
+  <div><label for="order">Cách học</label><select id="order"><option value="normal">Theo thứ tự</option><option value="random">Ngẫu nhiên</option><option value="unknown">Ôn từ chưa thuộc trước</option></select></div>
+</div>
+
+<div class="modebar"><button class="modebtn active" id="flashMode">📚 Học từ vựng</button><button class="modebtn" id="sentenceMode">🧩 Xếp câu</button></div>
+<div id="flashSection">
+<div class="toggles">
+  <button class="toggle" id="hideHanzi">Ẩn Hán tự</button>
+  <button class="toggle" id="hidePinyin">Ẩn pinyin</button>
+  <button class="toggle" id="hideMeaning">Ẩn nghĩa</button>
+  <button class="toggle" id="hideExample">Ẩn ví dụ</button>
+</div>
+
+<div class="progress"><span id="counter">Từ 1 / 1</span><span id="percent">0% đã thuộc</span></div>
+<div class="track"><div class="fill" id="fill"></div></div>
+
+<section class="flashcard">
+  <div class="tag" id="tag">HSK 1 · TỪ VỰNG</div>
+  <div class="hanzi" id="hanzi">爱国</div>
+  <div class="pinyin" id="pinyin">ài guó</div>
+  <div class="meaning" id="meaning">yêu nước</div>
+  <div class="example" id="example">
+    <div class="example-cn" id="exampleCn">我们都很爱国。</div>
+    <div class="example-py" id="examplePy">Wǒmen dōu hěn àiguó.</div>
+    <div class="example-vi" id="exampleVi">Chúng tôi đều rất yêu nước.</div>
+  </div>
+  <div class="actions">
+    <button class="smallbtn" id="speakBtn">🔊 Nghe phát âm</button>
+    <button class="smallbtn" id="revealBtn">👁 Hiện tất cả</button>
+    <button class="smallbtn unknown" id="unknownBtn">⭐ Chưa thuộc</button>
+  </div>
+</section>
+<div class="nav">
+  <button class="btn" id="prevBtn">◀ Từ trước</button>
+  <button class="btn primary" id="nextBtn">Từ tiếp ▶</button>
+</div>
+<div class="stats">
+  <div class="stat"><strong id="totalStat">0</strong><span>Từ trong bộ lọc</span></div>
+  <div class="stat"><strong id="knownStat">0</strong><span>Đã thuộc</span></div>
+  <div class="stat"><strong id="unknownStat">0</strong><span>Chưa thuộc</span></div>
+</div>
+
+</div>
+<section id="sentenceSection" class="gamecard off">
+  <div class="game-title">🧩 Xếp câu tiếng Trung</div>
+  <div class="game-sub">Đọc nghĩa tiếng Việt, rồi bấm các mảnh từ theo đúng thứ tự để ghép thành câu.</div>
+  <div class="progress"><span id="gameCounter">Câu 1 / 1</span><span id="gameScore">Đúng: 0</span></div>
+  <div class="prompt"><strong id="sentenceMeaning">Tôi sẽ liên hệ tài xế ngay.</strong><span style="font-size:12px;color:#77746d">Gợi ý pinyin: <span id="sentenceHint">Wǒ mǎshàng liánxì sījī.</span></span></div>
+  <div style="font-size:13px;font-weight:650">Câu của mày</div><div class="answerline" id="answerLine"></div>
+  <div style="font-size:13px;font-weight:650;margin-top:13px">Chọn các mảnh bên dưới</div><div class="chips" id="wordChips"></div>
+  <div class="actions" style="justify-content:flex-start"><button class="btn" id="undoWord">↩ Bỏ từ cuối</button><button class="btn" id="clearWords">Xóa câu</button><button class="btn primary" id="checkSentence">Kiểm tra ✓</button><button class="btn" id="nextSentence">Câu tiếp →</button></div>
+  <div class="feedback" id="gameFeedback"></div>
+  <div id="correctAnswer" class="off" style="padding:12px;background:#f4f0e7;border-radius:12px;margin-top:6px"></div>
+</section>
+<details class="extra">
+  <summary>＋ Thêm từ vựng của riêng mày</summary>
+  <p>Những từ tự thêm được lưu ngay trên thiết bị này, không cần tài khoản. Để đồng bộ sang thiết bị khác, hãy xuất dữ liệu và nhập lại ở thiết bị đó.</p>
+  <div class="addgrid">
+    <input id="newHanzi" placeholder="汉字 · Hán tự">
+    <input id="newPinyin" placeholder="Pinyin có dấu">
+    <input id="newMeaning" placeholder="Nghĩa tiếng Việt">
+    <select id="newCategory">
+      <option>HSK 1</option><option>HSK 2</option><option>HSK 3</option>
+      <option>HSK 4</option><option>HSK 5</option><option>HSK 6</option><option>Công việc</option>
+    </select>
+    <input class="wide" id="newExample" placeholder="Câu ví dụ tiếng Trung (không bắt buộc
